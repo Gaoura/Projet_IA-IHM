@@ -20,7 +20,7 @@ CXXFLAGS 		:= -Wall -Wextra -std=c++11 -pedantic
 LDFLAGS			:=
 FLAGS				:= $(CXXFLAGS)
 
-# changer tous les warnings en erreur et a s'arreter a la premiere erreur
+# changer tous les warnings en erreur et s'arreter a la premiere erreur
 PERFECT_FLAGS	:= -Werror -Wfatal-errors
 # options de debug
 DEBUG_FLAGS		:= -g
@@ -30,12 +30,14 @@ OPTI_FLAGS		:= -O2
 # Chargement des flags en fonction du mode choisi
 ifeq ($(MODE),perfect)
 	FLAGS += $(PERFECT_FLAGS)
-endif
+else
 ifeq ($(MODE),debug)
 	FLAGS += $(DEBUG_FLAGS)
-endif
+else
 ifeq ($(MODE),release)
 	FLAGS += $(OPTI_FLAGS)
+endif
+endif
 endif
 
 #////////////////////////////////////////////////////////////////////////////////////////////
@@ -59,6 +61,7 @@ OBJS_DIR			:= objs
 
 DIR				:= $(TESTS_DIR) $(OBJS_DIR)
 
+# tous les fichiers .cpp sauf les fichiers de tests
 SRC				:= $(notdir $(filter-out $(wildcard $(VPATH)/Test*), $(wildcard $(VPATH)/*.cpp)))
 OBJS				:= $(SRC:.cpp=.o)
 
