@@ -53,11 +53,24 @@ public:
      */
     CircuitGraphe(Graphe<InfoAreteCarte, InfoSommetCarte> *);
 
+    CircuitGraphe(const CircuitGraphe & c);
+
+    const CircuitGraphe & operator= (const CircuitGraphe & c);
+
     /**
      * Destructeur obligatoire car la classe comporte une partie dynamique
      **/
     ~CircuitGraphe();
 
+    Graphe<InfoAreteCarte, InfoSommetCarte> * getGraphe() const
+    {
+        return graphe_;
+    }
+
+    PElement<Sommet<InfoSommetCarte> > * getCircuit() const
+    {
+        return circuit_;
+    }
 
     /**
      * Ajoute un sommet en fin de liste de sommets
@@ -93,7 +106,7 @@ public:
 
 std::ostream & operator<< (std::ostream & os, const CircuitGraphe & op);
 
-CircuitGraphe changementAleatoire(const CircuitGraphe & c);
+const CircuitGraphe changementAleatoire(const CircuitGraphe & c);
 
 double coutParcours(const CircuitGraphe & c);
 

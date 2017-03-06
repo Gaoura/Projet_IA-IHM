@@ -20,7 +20,7 @@ const SolutionCout<S> recuitSimule(const double & tInitiale, const double & tFin
 	const S & s0, double(*cout1)(const S & s), const S(*changementAleatoire)(const S & s),
 	double(*succ)(const double & t))
 {
-	double t = tInitiale;
+    double t = tInitiale;
 	SolutionCout<S> s(s0, cout1);
 	SolutionCout<S> sBest(s);
 	double v;

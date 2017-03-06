@@ -26,7 +26,7 @@ Sommet<InfoSommetCarte> * CircuitGraphe::sommetAleatoire() const
 
     PElement<Sommet<InfoSommetCarte> > * temp = circuit_;
 
-    for (int i{0}; i < n; ++n)
+    for (int i{0}; i < n; ++i)
         temp = temp->s;
 
     return temp->v;
@@ -36,9 +36,14 @@ Sommet<InfoSommetCarte> * CircuitGraphe::sommetSuivant(const Sommet<InfoSommetCa
 {
     PElement<Sommet<InfoSommetCarte> > * temp = circuit_;
 
+    if (temp == nullptr)
+        return nullptr;
     while (temp->s != nullptr)
+    {
         if (temp->v == s)
             return temp->s->v;
+        temp = temp->s;
+    }
 
     if (temp->v == s)
         return circuit_->v;
@@ -98,6 +103,27 @@ CircuitGraphe::CircuitGraphe(Graphe<InfoAreteCarte, InfoSommetCarte> * graphe)
     if (PElement<Sommet<InfoSommetCarte> >::taille(graphe->lSommets) < 4)
         throw Erreur("Pas de graphe de moins de 4 sommets");
 
+}
+
+CircuitGraphe::CircuitGraphe(const CircuitGraphe & c)
+                            : graphe_(c.getGraphe()), circuit_(nullptr)
+{
+    *this = c;
+}
+
+const CircuitGraphe & CircuitGraphe::operator= (const CircuitGraphe & c)
+{
+    if (this != &c)
+    {
+        PElement<Sommet<InfoSommetCarte> >::efface1(circuit_);
+        PElement<Sommet<InfoSommetCarte> > * temp = c.getCircuit();
+        while (temp != nullptr)
+        {
+            add(temp->v);
+            temp = temp->s;
+        }
+    }
+    return *this;
 }
 
 CircuitGraphe::~CircuitGraphe()
@@ -268,6 +294,7 @@ double CircuitGraphe::coutParcours() const
         if (a == nullptr)
             return inf;
         res += a->v.cout_;
+        temp = temp->s;
     }
     // il reste a regarder l'arete entre le dernier sommet et le premier sommet du circuit
     a = graphe_->getAreteParSommets(temp->v, circuit_->v);
@@ -296,7 +323,7 @@ std::ostream & operator<< (std::ostream & os, const CircuitGraphe & op)
     return os << std::string(op);
 }
 
-CircuitGraphe changementAleatoire(const CircuitGraphe & c)
+const CircuitGraphe changementAleatoire(const CircuitGraphe & c)
 {
     return c.changementAleatoire();
 }
