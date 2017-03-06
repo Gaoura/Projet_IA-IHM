@@ -5,14 +5,23 @@
 #include "Graphe.h"
 #include "DessinGrapheRecuitSimule.h"
 #include "OutilsCarteRecuitSimule.h"
+#include "CircuitGraphe.h"
+#include "recuitSimule.h"
 
 #define S1 6                // nombre de sommets du graphe g1
 #define A1 (S1*(S1-1)/2)    // nombre d'arêtes du graphe g1 car g1 est complet
 
+
+// Fonction tres simple pour la diminution de la temperature
+double succ(const double & x)
+{
+	return x - 1;
+}
+
 int main()
 {
     char ch;
-    {           //--------------- 1er exemple de graphe ------------------------------
+     //--------------- 1er exemple de graphe ------------------------------
 
     std::cout << "construction d'un 1er exemple de graphe complet à 6 sommets" << std::endl;
 
@@ -41,13 +50,13 @@ int main()
 
     for (i = 0, k = 0; i < S1; ++i)
     	for (j = i+1; j < S1; ++j)
-    		{
+    	{
     		double d = OutilsCarteRecuitSimule::distance(s[i],s[j]);  // calcul de la distance du sommet s[i] à s[j]
     		a[k++] = g1.creeArete( s[i], s[j], InfoAreteCarte(d));
 
     		// on peut remplacer les 2 lignes précédentes par l'unique ligne suivante :
     		// a[k++] = OutilsCarteRecuitSimule.creeArete(s[i],s[j],g1);
-    		}
+    	}
     //--------------- ca y est, g1 est créé et complet ----------------------------------
 
     std::cout << a[1] << std::endl;
@@ -73,14 +82,36 @@ int main()
     DessinGrapheRecuitSimule::ecritGraphe(f, g1, coinBG, coinHD, couleurRepere,
                                             rayonSommet, couleurSommets, couleurAretes);
 
-    cout << "le fichier texte de  dessin " << nomFichierDessin << " a été créé"<< endl;
+    cout << "le fichier texte de  dessin " << nomFichierDessin << " a été créé" << endl;
 
-    }	//--------------- fin 1er exemple de graphe ------------------------------
+    //--------------- fin 1er exemple de graphe ------------------------------
+
+
+
+
+    std::cout <<"tapez un caractère, puis ENTER pour passer a la creation d'un chemin\n";cin >> ch;
+
+    // on cree un CircuitGraphe qui va contenir le chemin sur lequel va travailler le recuit simule
+    CircuitGraphe s0 = CircuitGraphe(&g1);
+
+    // comme le graphe est complet on va juste ajouter les sommets dans l'ordre
+    // et les melanger une fois
+    for (int i{0}; i < S1; i++)
+        s0.add(s[i]);
+
+    std::cout << "Circuit initial :" << std::endl << s0 << std::endl << std::endl;
+
+    double tInitiale = 100.;
+    double tFinale = 0.;
+    int nombreTentativesMax = 100;
+    int nombreSuccesMax = 50;
+
+    std::cout << "Circuit changé avant recuit simule :" << std::endl << changementAleatoire(s0)  << std::endl << std::endl;
+
+    SolutionCout<CircuitGraphe> solution_recuit = recuitSimule(tInitiale, tFinale, nombreTentativesMax, nombreSuccesMax, s0, coutParcours, changementAleatoire, succ);
+    std::cout << "Meilleure solution et son coût : " << std::endl << solution_recuit << std::endl;
 
     cin >> ch;
-
-
-
-
+    
     return 0;
 }
