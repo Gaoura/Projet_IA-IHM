@@ -16,7 +16,8 @@ MODE				?= normal
 CXX				:= g++
 
 # flags minimum necessaires
-CXXFLAGS 		:= -Wall -Wextra -std=c++11 -pedantic
+INCLUDE			:= -I./lib -I./src
+CXXFLAGS 		:= -Wall -Wextra -std=c++11 -pedantic $(INCLUDE)
 LDFLAGS			:=
 FLAGS				:= $(CXXFLAGS)
 
@@ -52,7 +53,7 @@ endif
 #
 #////////////////////////////////////////////////////////////////////////////////////////////
 
-VPATH				:= src
+VPATH				:= lib src
 
 # repertoire des executables
 TESTS_DIR		:= bin
@@ -62,7 +63,8 @@ OBJS_DIR			:= objs
 DIR				:= $(TESTS_DIR) $(OBJS_DIR)
 
 # tous les fichiers .cpp sauf les fichiers de tests
-SRC				:= $(notdir $(filter-out $(wildcard $(VPATH)/Test*), $(wildcard $(VPATH)/*.cpp)))
+SRC				:= $(notdir $(filter-out $(wildcard lib/Test*), $(wildcard lib/*.cpp)))
+SRC				+= $(notdir $(filter-out $(wildcard src/main.cpp), $(wildcard src/*.cpp)))
 OBJS				:= $(SRC:.cpp=.o)
 
 # les sources ecrites
@@ -73,7 +75,7 @@ OBJS				:= $(SRC:.cpp=.o)
 #OBJS				:= $(SRC) $(LIB)
 
 # executables de tests
-EXEC 				:= TestPElement.out TestGraphe.out TestGraphePourRecuitSimule.out
+EXEC 				:= TestPElement.out TestGraphe.out TestGraphePourRecuitSimule.out main.out
 
 #////////////////////////////////////////////////////////////////////////////////////////////
 #
@@ -109,6 +111,10 @@ $(TESTS_DIR)/TestGraphe.out: $(addprefix $(OBJS_DIR)/,GElement.o TestGraphe.o)
 
 # Construction de TestGraphePourRecuitSimule
 $(TESTS_DIR)/TestGraphePourRecuitSimule.out: $(addprefix $(OBJS_DIR)/,$(OBJS) TestGraphePourRecuitSimule.o)
+	@$(CXX) $^ $(LDFLAGS) -o $@
+
+# Construction de main
+$(TESTS_DIR)/main.out: $(addprefix $(OBJS_DIR)/,$(OBJS) main.o)
 	@$(CXX) $^ $(LDFLAGS) -o $@
 
 # Regles pour raccourcir l'appel a un mode (evitant de devoir passer une variable a make)
