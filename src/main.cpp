@@ -70,7 +70,7 @@ int main()
     //----------------- on crée le fichier texte pour dessiner g1 ------------------------------
 
     string nomFichierDessin = "grapheHexagonalComplet.txt";
-    std::ofstream f(nomFichierDessin);           // ouverture de f en écriture, en mode texte
+    std::ofstream f(nomFichierDessin);      // ouverture de f en écriture, en mode texte
                                             // (cf. doc cplusplus.com)
     Vecteur2D coinBG(-1,-1), coinHD(5,5);   // limites de la fenêtre à visualiser.
                                             // calculées à partir des coordonnées des sommets
@@ -112,6 +112,43 @@ int main()
     std::cout << "Meilleure solution et son coût : " << std::endl << solution_recuit << std::endl;
 
     cin >> ch;
-    
+
+
+
+/*
+    // on cree un graphe a partir du circuit solution
+    Graphe<InfoAreteCarte,InfoSommetCarte> g_solution;
+    PElement<Sommet<InfoSommetCarte> > * temp = g1.lSommets;
+
+    while (temp != nullptr)
+    {
+        g_solution.creeSommet(temp->v->v);
+        temp = temp->s;
+    }
+
+    temp = s0.getCircuit();
+    Arete<InfoAreteCarte, InfoSommetCarte> * a2;
+
+    while (temp != nullptr)
+    {
+        a2 = g1.getAreteParSommets(temp->v, temp->s->v);
+        g_solution.creeArete(temp->v, temp->s->v, a2->v);
+        temp = temp->s;
+    }
+
+
+
+    // on crée le fichier texte pour dessiner le circuit solution ---------------------------
+
+    nomFichierDessin = "grapheHexagonalCircuitSolution.txt";
+    std::ofstream f2(nomFichierDessin);     // ouverture de f en écriture, en mode texte
+                                            // (cf. doc cplusplus.com)
+
+    DessinGrapheRecuitSimule::ecritGraphe(f, g1, coinBG, coinHD, couleurRepere,
+                                            rayonSommet, couleurSommets, couleurAretes);
+
+    cout << "le fichier texte de  dessin " << nomFichierDessin << " a été créé" << endl;
+
+*/
     return 0;
 }
