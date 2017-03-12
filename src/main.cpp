@@ -65,7 +65,7 @@ int main()
 
     std::cout << "g1 = "<< std::endl << g1 << std::endl;
 
-    std::cout <<"tapez un caractère, puis ENTER\n"; cin >> ch;
+    std::cout <<"tapez un caractère, puis ENTER\n"; std::cin >> ch;
 
     //----------------- on crée le fichier texte pour dessiner g1 ------------------------------
 
@@ -82,14 +82,14 @@ int main()
     DessinGrapheRecuitSimule::ecritGraphe(f, g1, coinBG, coinHD, couleurRepere,
                                             rayonSommet, couleurSommets, couleurAretes);
 
-    cout << "le fichier texte de  dessin " << nomFichierDessin << " a été créé" << endl;
+    std::cout << "le fichier texte de  dessin " << nomFichierDessin << " a été créé" << std::endl;
 
     //--------------- fin 1er exemple de graphe ------------------------------
 
 
 
 
-    std::cout <<"tapez un caractère, puis ENTER pour passer a la creation d'un chemin\n";cin >> ch;
+    std::cout <<"tapez un caractère, puis ENTER pour passer a la creation d'un chemin\n";std::cin >> ch;
 
     // on cree un CircuitGraphe qui va contenir le chemin sur lequel va travailler le recuit simule
     CircuitGraphe s0 = CircuitGraphe(&g1);
@@ -111,11 +111,11 @@ int main()
     SolutionCout<CircuitGraphe> solution_recuit = recuitSimule(tInitiale, tFinale, nombreTentativesMax, nombreSuccesMax, s0, coutParcours, changementAleatoire, succ);
     std::cout << "Meilleure solution et son coût : " << std::endl << solution_recuit << std::endl;
 
-    cin >> ch;
+    std::cin >> ch;
 
 
 
-/*
+
     // on cree un graphe a partir du circuit solution
     Graphe<InfoAreteCarte,InfoSommetCarte> g_solution;
     PElement<Sommet<InfoSommetCarte> > * temp = g1.lSommets;
@@ -129,12 +129,17 @@ int main()
     temp = s0.getCircuit();
     Arete<InfoAreteCarte, InfoSommetCarte> * a2;
 
-    while (temp != nullptr)
-    {
-        a2 = g1.getAreteParSommets(temp->v, temp->s->v);
-        g_solution.creeArete(temp->v, temp->s->v, a2->v);
-        temp = temp->s;
-    }
+    /*if (temp != nullptr)
+    {*/
+        while (temp->s != nullptr)
+        {
+            a2 = g1.getAreteParSommets(temp->v, temp->s->v);
+            g_solution.creeArete(temp->v, temp->s->v, a2->v);
+            temp = temp->s;
+        }
+        a2 = g1.getAreteParSommets(temp->v, s0.getCircuit()->v);
+        g_solution.creeArete(temp->v, s0.getCircuit()->v, a2->v);
+    /*}*/
 
 
 
@@ -144,11 +149,11 @@ int main()
     std::ofstream f2(nomFichierDessin);     // ouverture de f en écriture, en mode texte
                                             // (cf. doc cplusplus.com)
 
-    DessinGrapheRecuitSimule::ecritGraphe(f, g1, coinBG, coinHD, couleurRepere,
+    DessinGrapheRecuitSimule::ecritGraphe(f2, g_solution, coinBG, coinHD, couleurRepere,
                                             rayonSommet, couleurSommets, couleurAretes);
 
-    cout << "le fichier texte de  dessin " << nomFichierDessin << " a été créé" << endl;
+    std::cout << "le fichier texte de  dessin " << nomFichierDessin << " a été créé" << std::endl;
 
-*/
+
     return 0;
 }
