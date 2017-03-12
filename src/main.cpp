@@ -75,7 +75,7 @@ int main()
 
     //----------------- on crée le fichier texte pour dessiner g1 ------------------------------
 
-    string nomFichierDessin = "grapheHexagonalComplet.txt";
+    string nomFichierDessin = "bsplines/grapheHexagonalComplet.txt";
     std::ofstream f(nomFichierDessin);      // ouverture de f en écriture, en mode texte
                                             // (cf. doc cplusplus.com)
     Vecteur2D coinBG(-1,-1), coinHD(5,5);   // limites de la fenêtre à visualiser.
@@ -142,7 +142,7 @@ int main()
 
     // on crée le fichier texte pour dessiner le circuit solution ---------------------------
 
-    nomFichierDessin = "grapheHexagonalCircuitSolution.txt";
+    nomFichierDessin = "bsplines/grapheHexagonalCircuitSolution.txt";
     std::ofstream f2(nomFichierDessin);     // ouverture de f en écriture, en mode texte
                                             // (cf. doc cplusplus.com)
 
@@ -210,7 +210,7 @@ int main()
 
     //----------------- on crée le fichier texte pour dessiner g2 ---------------------------
 
-    nomFichierDessin = "grapheOctogonal.txt";
+    nomFichierDessin = "bsplines/grapheOctogonal.txt";
     std::ofstream f3(nomFichierDessin);      // ouverture de f en écriture, en mode texte
                                             // (cf. doc cplusplus.com)
     DessinGrapheRecuitSimule::ecritGraphe(f3, g2, coinBG, coinHD, couleurRepere,
@@ -244,7 +244,7 @@ int main()
     // NOTE: s'il y a plusieurs aretes inexistantes, le fait que la solution initiale soit
     // toujours conservee tant qu'on ne trouve pas strictement moins, et qu'une arete inexistante
     // donne un cout de valeur infini, alors
-    // on compare 2 circuits de cout infini continuellement 
+    // on compare 2 circuits de cout infini continuellement
     sInitiale2.add(s2[0]);
     sInitiale2.add(s2[1]);
     sInitiale2.add(s2[2]);
@@ -272,7 +272,7 @@ int main()
 
     // on crée le fichier texte pour dessiner le circuit solution ---------------------------
 
-    nomFichierDessin = "grapheOctogonalCircuitSolution.txt";
+    nomFichierDessin = "bsplines/grapheOctogonalCircuitSolution.txt";
     std::ofstream f4(nomFichierDessin);     // ouverture de f en écriture, en mode texte
                                             // (cf. doc cplusplus.com)
 
