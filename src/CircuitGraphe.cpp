@@ -304,6 +304,37 @@ double CircuitGraphe::coutParcours() const
     return res + a->v.cout_;
 }
 
+Graphe<InfoAreteCarte,InfoSommetCarte> * CircuitGraphe::convertirEnGraphe()
+{
+    Graphe<InfoAreteCarte,InfoSommetCarte> * g = new Graphe<InfoAreteCarte,InfoSommetCarte>();
+    PElement<Sommet<InfoSommetCarte> > * temp = graphe_->lSommets;
+
+    // on cree d'abord tous les sommets du graphe
+    while (temp != nullptr)
+    {
+        g->creeSommet(temp->v->v);
+        temp = temp->s;
+    }
+
+    if (circuit_ != nullptr)
+    {
+        temp = circuit_;
+        Arete<InfoAreteCarte, InfoSommetCarte> * a;
+        while (temp->s != nullptr)
+        {
+            a = graphe_->getAreteParSommets(temp->v, temp->s->v);
+            if (a != nullptr)
+                g->creeArete(temp->v, temp->s->v, a->v);
+            temp = temp->s;
+        }
+        a = graphe_->getAreteParSommets(temp->v, circuit_->v);
+        if (a != nullptr)
+            g->creeArete(temp->v, circuit_->v, a->v);
+    }
+
+    return g;
+}
+
 /*
 /////////////////////////////////////////////////////////////////////////////////////////////
 

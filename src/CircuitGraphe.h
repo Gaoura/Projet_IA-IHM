@@ -102,6 +102,12 @@ public:
      */
     double coutParcours() const;
 
+    /**
+     * Cree un graphe a partir du circuit et de l'attribut graphe_
+     * Renvoie un pointeur vers le tas (penser a desallouer)
+     */
+    Graphe<InfoAreteCarte,InfoSommetCarte> * convertirEnGraphe();
+
 };
 
 std::ostream & operator<< (std::ostream & os, const CircuitGraphe & op);
