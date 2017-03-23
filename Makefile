@@ -64,7 +64,7 @@ DIR				:= $(TESTS_DIR) $(OBJS_DIR)
 
 # tous les fichiers .cpp sauf les fichiers de tests
 SRC				:= $(notdir $(filter-out $(wildcard lib/Test*), $(wildcard lib/*.cpp)))
-SRC				+= $(notdir $(filter-out $(wildcard src/main.cpp), $(wildcard src/*.cpp)))
+SRC				+= $(notdir $(filter-out $(wildcard src/main*.cpp), $(wildcard src/*.cpp)))
 OBJS				:= $(SRC:.cpp=.o)
 
 # les sources ecrites
@@ -75,7 +75,7 @@ OBJS				:= $(SRC:.cpp=.o)
 #OBJS				:= $(SRC) $(LIB)
 
 # executables de tests
-EXEC 				:= TestPElement.out TestGraphe.out TestGraphePourRecuitSimule.out main.out
+EXEC 				:= TestPElement.out TestGraphe.out TestGraphePourRecuitSimule.out main.out main2.out
 
 #////////////////////////////////////////////////////////////////////////////////////////////
 #
@@ -115,6 +115,10 @@ $(TESTS_DIR)/TestGraphePourRecuitSimule.out: $(addprefix $(OBJS_DIR)/,$(OBJS) Te
 
 # Construction de main
 $(TESTS_DIR)/main.out: $(addprefix $(OBJS_DIR)/,$(OBJS) main.o)
+	@$(CXX) $^ $(LDFLAGS) -o $@
+
+# Construction de main2
+$(TESTS_DIR)/main2.out: $(addprefix $(OBJS_DIR)/,$(OBJS) main2.o)
 	@$(CXX) $^ $(LDFLAGS) -o $@
 
 # Regles pour raccourcir l'appel a un mode (evitant de devoir passer une variable a make)
